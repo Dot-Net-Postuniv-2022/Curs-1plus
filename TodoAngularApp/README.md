@@ -1,5 +1,10 @@
 # TodoAngularApp
 
+To run the sample app we made:
+1. `npm install`
+2. `ng build`
+3. `ng serve`
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.12.
 
 ## Development server
