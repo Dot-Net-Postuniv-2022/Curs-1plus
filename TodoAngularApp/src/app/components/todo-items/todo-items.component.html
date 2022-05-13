@@ -1,0 +1,27 @@
+
+<table *ngIf="todoItems.length > 0">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Complete</th>
+    </tr>
+    <tr *ngFor="let todoItem of todoItems">
+        <td>{{todoItem.id}}</td>
+        <td>{{todoItem.name}}</td>
+        <td>{{todoItem.isComplete}}</td>
+    </tr>
+</table>
+
+<p>Add new todo item:</p>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Complete</th>
+    </tr>
+    <tr>
+        <td><input [(ngModel)]="newTodoItem.name"></td>
+        <td><input [(ngModel)]="newTodoItem.isComplete"></td>
+    </tr>
+</table>
+
+<button (click)="addTodoItem()">Add</button>

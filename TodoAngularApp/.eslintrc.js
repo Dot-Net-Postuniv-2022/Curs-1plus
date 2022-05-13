@@ -17,5 +17,6 @@ module.exports = {
   'rules': {
     'require-jsdoc': 0,
     'new-cap': 0,
+    'max-len': 100,
   },
 };
