@@ -1,6 +1,8 @@
-export interface TodoItem
-{
+export interface TodoItem {
     id?: number;
     name?: string;
-    isComplete?: string | boolean;
+    isComplete?: boolean;
+
+    preparingDelete?: boolean;
+    isEditing?: boolean;
 }

@@ -13,3 +13,21 @@
     margin: 0 auto;
     max-width: 800px;
 }
+
+.todo-table {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.todo-icon-operation {
+    cursor: pointer;
+}
+
+.mat-column-operations {
+    min-width: 180px;
+    text-align: center;
+}
+
+.operations-div {
+    max-width: 100%;
+}
