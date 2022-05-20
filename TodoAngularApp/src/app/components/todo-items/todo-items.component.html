@@ -1,27 +1,41 @@
+<mat-card class="main-card">
+    <mat-card-title>Todo List Application</mat-card-title>
 
-<table *ngIf="todoItems.length > 0">
-    <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Complete</th>
-    </tr>
-    <tr *ngFor="let todoItem of todoItems">
-        <td>{{todoItem.id}}</td>
-        <td>{{todoItem.name}}</td>
-        <td>{{todoItem.isComplete}}</td>
-    </tr>
-</table>
+    <mat-card-subtitle>
+        Existing items:
+    </mat-card-subtitle>
+    <mat-card-content>
 
-<p>Add new todo item:</p>
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Complete</th>
-    </tr>
-    <tr>
-        <td><input [(ngModel)]="newTodoItem.name"></td>
-        <td><input [(ngModel)]="newTodoItem.isComplete"></td>
-    </tr>
-</table>
+        <table *ngIf="todoItems.length > 0">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Complete</th>
+            </tr>
+            <tr *ngFor="let todoItem of todoItems">
+                <td>{{todoItem.id}}</td>
+                <td>{{todoItem.name}}</td>
+                <td>{{todoItem.isComplete}}</td>
+            </tr>
+        </table>
+    </mat-card-content>
 
-<button (click)="addTodoItem()">Add</button>
+
+    <mat-card-subtitle>
+        Add new item:
+    </mat-card-subtitle>
+
+    <mat-card-actions>
+        <form class="example-form">
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Todo item:</mat-label>
+                <input matInput placeholder="Ex.: Do homework" name="todo" [(ngModel)]="newTodoItem.name">
+            </mat-form-field>
+
+            <mat-checkbox class="example-margin" name="completed" [(ngModel)]="newTodoItem.isComplete">Is completed
+            </mat-checkbox>
+        </form>
+
+        <button (click)="addTodoItem()">Add</button>
+    </mat-card-actions>
+</mat-card>
