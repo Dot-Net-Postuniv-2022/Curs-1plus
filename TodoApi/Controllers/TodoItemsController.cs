@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TodoApi.DTOs;
+using TodoApi.Mappers;
 using TodoApi.Models;
 
 namespace TodoApi.Controllers
@@ -31,7 +32,9 @@ namespace TodoApi.Controllers
             {
                 query = query.Where(item => item.IsComplete == showOnly.Value);
             }
-            return await query.Select(item => ItemToDTO(item)).ToListAsync();
+            return await query//.Include(t => t.TodoSubItems)
+                .Select(item => TodoItemMappers.ItemToDTO(item))
+                .ToListAsync();
         }
 
         // GET: api/TodoItems/5
@@ -45,7 +48,7 @@ namespace TodoApi.Controllers
                 return NotFound();
             }
 
-            return ItemToDTO(todoItem);
+            return TodoItemMappers.ItemToDTO(todoItem);
         }
 
         // PUT: api/TodoItems/5
@@ -92,15 +95,11 @@ namespace TodoApi.Controllers
         [HttpPost]
         public async Task<ActionResult<TodoItemDTO>> AddTodoItem(TodoItemDTO todoItemDTO)
         {
-            var todoItem = new TodoItem
-            {
-                Name = todoItemDTO.Name,
-                IsComplete = todoItemDTO.IsComplete
-            };
+            var todoItem = TodoItemMappers.DTOToItem(todoItemDTO);
             _context.TodoItems.Add(todoItem);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetTodoItem), new { id = todoItemDTO.Id }, ItemToDTO(todoItem));
+            return CreatedAtAction(nameof(GetTodoItem), new { id = todoItemDTO.Id }, TodoItemMappers.ItemToDTO(todoItem));
         }
 
         // DELETE: api/TodoItems/5
@@ -124,12 +123,6 @@ namespace TodoApi.Controllers
             return _context.TodoItems.Any(e => e.Id == id);
         }
 
-          private static TodoItemDTO ItemToDTO(TodoItem todoItem) =>
-            new TodoItemDTO
-            {
-                Id = todoItem.Id,
-                Name = todoItem.Name,
-                IsComplete = todoItem.IsComplete
-            };
+
     }
 }
