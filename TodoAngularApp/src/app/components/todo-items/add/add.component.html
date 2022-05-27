@@ -1,0 +1,32 @@
+<form [formGroup]="todoItemForm" (ngSubmit)="onSubmit()">
+    <div class="container">
+        <mat-form-field appearance="fill">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name">
+            <mat-error *ngIf="name?.invalid">Need at least {{name?.errors?.minlength?.requiredLength}} characters.
+            </mat-error>
+
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description"></textarea>
+            <mat-error *ngIf="description?.invalid">Description is required.</mat-error>
+        </mat-form-field>
+
+        <mat-checkbox formControlName="isComplete" class="example-margin">Completed!</mat-checkbox>
+
+        <!--   // Cu titlu de exemplu vizual pentru cerinta de bonus din saptamana 5 - NU este functional.
+ -->
+        <mat-form-field appearance="fill" *ngFor="let num of nums">
+            <mat-label>Subactivitate {{num}}:</mat-label>
+            <textarea matInput formControlName="description"></textarea>
+            <button mat-raised-button (click)="deleteSubactivity(num)">Remove</button>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="todoItemForm?.invalid">Add</button>
+
+    </div>
+</form>
+
+
+<button mat-raised-button (click)="newSubactivity()">Add new subactivity</button>

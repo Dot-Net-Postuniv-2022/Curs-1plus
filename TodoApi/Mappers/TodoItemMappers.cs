@@ -21,6 +21,6 @@ public static class TodoItemMappers
             Name = todoItemDTO.Name,
             Description = todoItemDTO.Description,
             IsComplete = todoItemDTO.IsComplete,
-            TodoSubItems = todoItemDTO.TodoSubItems.Select(subItemDto => TodoSubItemMappers.DTOToSubItem(subItemDto)).ToList(),
+            TodoSubItems = todoItemDTO.TodoSubItems?.Select(subItemDto => TodoSubItemMappers.DTOToSubItem(subItemDto)).ToList(),
         };
 }

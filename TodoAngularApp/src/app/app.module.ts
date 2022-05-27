@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -14,17 +15,21 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { AddComponent } from './components/todo-items/add/add.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CounterComponent,
     TodoItemsComponent,
+    AddComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
 
@@ -34,6 +39,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatTableModule,
     MatButtonModule,
     MatIconModule,
+    MatSnackBarModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
