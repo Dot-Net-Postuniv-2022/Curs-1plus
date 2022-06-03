@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TodoApi.Models;
 
@@ -11,9 +12,10 @@ using TodoApi.Models;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(TodoContext))]
-    partial class TodoContextModelSnapshot : ModelSnapshot
+    [Migration("20220603143632_AddUserModel")]
+    partial class AddUserModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,7 +50,7 @@ namespace TodoApi.Migrations
                     b.ToTable("TodoItems");
                 });
 
-            modelBuilder.Entity("TodoApi.Models.UserInfo", b =>
+            modelBuilder.Entity("TodoApi.Models.User", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -60,7 +62,6 @@ namespace TodoApi.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
@@ -70,28 +71,14 @@ namespace TodoApi.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            CreatedAt = new DateTime(2022, 6, 3, 18, 5, 8, 743, DateTimeKind.Local).AddTicks(9320),
-                            Email = "vlad.ionescu@ubbcluj.ro",
-                            FirstName = "Vlad",
-                            LastName = "Ionescu",
-                            Password = "admin",
-                            Username = "admin"
-                        });
                 });
 
             modelBuilder.Entity("TodoSubItem", b =>

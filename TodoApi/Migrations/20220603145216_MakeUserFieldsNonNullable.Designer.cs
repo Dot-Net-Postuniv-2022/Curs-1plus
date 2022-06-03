@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TodoApi.Models;
 
@@ -11,9 +12,10 @@ using TodoApi.Models;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(TodoContext))]
-    partial class TodoContextModelSnapshot : ModelSnapshot
+    [Migration("20220603145216_MakeUserFieldsNonNullable")]
+    partial class MakeUserFieldsNonNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,18 +82,6 @@ namespace TodoApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            CreatedAt = new DateTime(2022, 6, 3, 18, 5, 8, 743, DateTimeKind.Local).AddTicks(9320),
-                            Email = "vlad.ionescu@ubbcluj.ro",
-                            FirstName = "Vlad",
-                            LastName = "Ionescu",
-                            Password = "admin",
-                            Username = "admin"
-                        });
                 });
 
             modelBuilder.Entity("TodoSubItem", b =>
