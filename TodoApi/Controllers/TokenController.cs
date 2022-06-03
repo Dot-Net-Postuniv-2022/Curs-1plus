@@ -26,7 +26,34 @@ namespace TodoApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(UserInfo _userData)
+        [Route("register")]
+        public async Task<ActionResult<UserInfo>> Register(UserInfo userInfo)
+        {
+            if (userInfo == null)
+            {
+                return BadRequest();
+            }
+
+            if (await _context.Users.AnyAsync(u => u.Username == userInfo.Username || u.Email == userInfo.Email))
+            {
+                return BadRequest("Username or email already exists");
+            }
+
+            if (userInfo.Password.Length < 6)
+            {
+                return BadRequest("Password must be at least 6 characters long");
+            }
+
+            _context.Users.Add(userInfo);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+
+        [HttpPost]
+        [Route("login")]
+        public async Task<IActionResult> AuthenticateUser(UserInfo _userData)
         {
             // TODO: make Username optional or check it too
             if (_userData != null && _userData.Email != null && _userData.Password != null)
@@ -51,7 +78,7 @@ namespace TodoApi.Controllers
                         _configuration["Jwt:Issuer"],
                         _configuration["Jwt:Audience"],
                         claims,
-                        expires: DateTime.UtcNow.AddMinutes(10),
+                        expires: DateTime.Now.AddMinutes(1),
                         signingCredentials: signIn);
 
                     return Ok(value: new JwtSecurityTokenHandler().WriteToken(token));
