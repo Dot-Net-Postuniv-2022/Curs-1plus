@@ -4,11 +4,13 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using TodoApi.Models;
+using TodoApi.Utils;
 
 namespace TodoApi.Controllers
 {
@@ -19,10 +21,13 @@ namespace TodoApi.Controllers
         public IConfiguration _configuration;
         private readonly TodoContext _context;
 
+        private readonly PasswordHasher<UserInfo> passwordHasher;
+
         public TokenController(IConfiguration config, TodoContext context)
         {
             _configuration = config;
             _context = context;
+            this.passwordHasher = new PasswordHasher<UserInfo>();
         }
 
         [HttpPost]
@@ -44,6 +49,8 @@ namespace TodoApi.Controllers
                 return BadRequest("Password must be at least 6 characters long");
             }
 
+            userInfo.CreatedAt = DateTime.Now;
+            userInfo.Password = PasswordUtils.ComputeSha256Hash(userInfo.Password);
             _context.Users.Add(userInfo);
             await _context.SaveChangesAsync();
 
@@ -53,12 +60,12 @@ namespace TodoApi.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> AuthenticateUser(UserInfo _userData)
+        public async Task<IActionResult> AuthenticateUser(UserInfo userData)
         {
             // TODO: make Username optional or check it too
-            if (_userData != null && _userData.Email != null && _userData.Password != null)
+            if (userData != null && userData.Email != null && userData.Password != null)
             {
-                var user = await GetUser(_userData.Email, _userData.Password);
+                var user = await GetUser(userData.Email, PasswordUtils.ComputeSha256Hash(userData.Password));
 
                 if (user != null)
                 {
@@ -78,7 +85,7 @@ namespace TodoApi.Controllers
                         _configuration["Jwt:Issuer"],
                         _configuration["Jwt:Audience"],
                         claims,
-                        expires: DateTime.Now.AddMinutes(1),
+                        expires: DateTime.Now.AddMinutes(120),
                         signingCredentials: signIn);
 
                     return Ok(value: new JwtSecurityTokenHandler().WriteToken(token));
@@ -96,6 +103,7 @@ namespace TodoApi.Controllers
 
         private async Task<UserInfo> GetUser(string email, string password)
         {
+
             return await _context.Users.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
         }
     }

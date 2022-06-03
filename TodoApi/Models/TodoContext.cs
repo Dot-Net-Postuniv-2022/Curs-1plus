@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 
@@ -20,18 +21,20 @@ namespace TodoApi.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            PasswordHasher<UserInfo> passwordHasher = new PasswordHasher<UserInfo>();
+
             modelBuilder.Entity<UserInfo>().HasData(
-                new UserInfo
-                {
-                    Id = 1,
-                    Username = "admin",
-                    Password = "admin",
-                    Email = "vlad.ionescu@ubbcluj.ro",
-                    FirstName = "Vlad",
-                    LastName = "Ionescu",
-                    CreatedAt = DateTime.Now
-                }
-            );
+                    new UserInfo
+                    {
+                        Id = 1,
+                        Username = "admin",
+                        Password = passwordHasher.HashPassword(new UserInfo(), "admin"),
+                        Email = "vlad.ionescu@ubbcluj.ro",
+                        FirstName = "Vlad",
+                        LastName = "Ionescu",
+                        CreatedAt = DateTime.Now
+                    }
+                );
         }
 
         public DbSet<TodoItem> TodoItems { get; set; } = null!;
