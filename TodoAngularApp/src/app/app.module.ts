@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CounterComponent } from './components/counter/counter.component';
 import { TodoItemsComponent } from './components/todo-items/todo-items.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -17,6 +17,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AddComponent } from './components/todo-items/add/add.component';
+import { LoginComponent } from './components/login/login.component';
+import { TokenInterceptor } from './interceptors/token-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,7 @@ import { AddComponent } from './components/todo-items/add/add.component';
     CounterComponent,
     TodoItemsComponent,
     AddComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,7 +44,12 @@ import { AddComponent } from './components/todo-items/add/add.component';
     MatIconModule,
     MatSnackBarModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true,
+    },
+
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

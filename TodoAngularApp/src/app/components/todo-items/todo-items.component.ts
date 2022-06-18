@@ -11,7 +11,7 @@ import { TodoItemsService } from 'src/app/services/todo-items.service';
 export class TodoItemsComponent implements OnInit {
   newTodoItem: TodoItem = { isComplete: false };
 
-  displayedColumns: string[] = ['todo', 'completed', 'operations'];
+  displayedColumns: string[] = ['todo', 'todo_desc', 'completed', 'operations'];
   dataSource: TodoItem[] = [];
 
   constructor(private todoItemsService: TodoItemsService) { }

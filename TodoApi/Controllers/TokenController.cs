@@ -88,7 +88,10 @@ namespace TodoApi.Controllers
                         expires: DateTime.Now.AddMinutes(120),
                         signingCredentials: signIn);
 
-                    return Ok(value: new JwtSecurityTokenHandler().WriteToken(token));
+                    return Ok(new
+                    {
+                        Token = new JwtSecurityTokenHandler().WriteToken(token)
+                    });
                 }
                 else
                 {
