@@ -36,6 +36,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<TodoItemDTOValidator>();
 
+builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
 
