@@ -2,11 +2,17 @@
     <div class="container">
         <mat-form-field appearance="fill">
             <mat-label>Name</mat-label>
-            <input matInput formControlName="name">
-            <mat-error *ngIf="name?.invalid">Need at least {{name?.errors?.minlength?.requiredLength}} characters.
+            <input matInput formControlName="name" />
+            <mat-error *ngIf=" name?.invalid">Need at least {{name?.errors?.minlength?.requiredLength}} characters.
             </mat-error>
 
+            <!-- <mat-error>asdf: {{errors?.Name}}</mat-error> -->
+            <div *ngIf="errors?.Name">
+                <mat-error *ngFor="let error of errors.Name">{{error}}</mat-error>
+            </div>
+
         </mat-form-field>
+
         <mat-form-field appearance="fill">
             <mat-label>Description</mat-label>
             <textarea matInput formControlName="description"></textarea>

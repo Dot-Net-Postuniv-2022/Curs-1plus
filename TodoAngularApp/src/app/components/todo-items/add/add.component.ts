@@ -11,6 +11,7 @@ import { TodoItemsService } from 'src/app/services/todo-items.service';
 export class AddComponent implements OnInit {
 
   nums = [1, 2, 3];
+  errors: any = undefined;
 
   constructor(private formBuilder: FormBuilder, private todoItemsService: TodoItemsService, private _snackBar: MatSnackBar) { }
 
@@ -19,7 +20,7 @@ export class AddComponent implements OnInit {
   }
 
   todoItemForm = this.formBuilder.group({
-    name: ['', [Validators.required, Validators.minLength(3)]],
+    name: [''],
     description: ['', [Validators.required]],
     isComplete: [false],
     //todoSubItems: this.formBuilder.array([])
@@ -30,13 +31,19 @@ export class AddComponent implements OnInit {
   get isComplete() { return this.todoItemForm.get('isComplete'); }
 
   onSubmit() {
+    this.errors = undefined;
     this.todoItemsService.addTodoItem(this.todoItemForm.value).subscribe((todoItem) => {
       this._snackBar.open("Added successfully!", "Ok", {
         verticalPosition: 'top',
         duration: 6 * 1000,
       });
-
       this.todoItemForm.reset();
+    }, (error) => {
+      this.errors = error.error.errors;
+      this._snackBar.open("Error adding item: " + error.status, "Ok", {
+        verticalPosition: 'top',
+        duration: 6 * 1000,
+      });
     });
   }
 
